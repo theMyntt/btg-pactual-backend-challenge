@@ -18,7 +18,9 @@ public class ClientEntityImpl extends ClientEntity {
         if (!description.isEmpty()) {
             this.setDescription(description);
         }
-        this.setName(name.trim());
+        if (!name.isEmpty()) {
+            this.setName(name.trim());
+        }
         this.setId(id);
 
         validateEntity();
