@@ -10,12 +10,16 @@ public class OrderEntityImpl extends OrderEntity {
     public OrderEntityImpl(ClientEntity client, List<ProductEntity> products) {
         this.setClient(client);
         this.setItems(products);
+
+        validateEntity();
     }
 
     public OrderEntityImpl(int id, ClientEntity client, List<ProductEntity> products) {
         this.setId(id);
         this.setClient(client);
         this.setItems(products);
+
+        validateEntity();
     }
 
     @Override
