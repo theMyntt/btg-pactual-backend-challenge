@@ -2,6 +2,7 @@ package com.gabrielaraujo.order_processor_service.adapters.dao.tables.mappers;
 
 import com.gabrielaraujo.order_processor_service.adapters.dao.tables.OrderTable;
 import com.gabrielaraujo.order_processor_service.core.entities.OrderEntity;
+import com.gabrielaraujo.order_processor_service.core.entities.factories.OrderEntityFactory;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -15,5 +16,13 @@ public class OrderTableMapper {
                         .toList())
                 .finalPrice(order.getFinalPrice())
                 .build();
+    }
+
+    public static OrderEntity toEntityFormat(OrderTable order) {
+        return OrderEntityFactory.of(order.getId(),
+                ClientTableMapper.toEntityFormat(order.getClient()),
+                order.getProducts().stream()
+                        .map(ProductTableMapper::toEntityFormat)
+                        .toList());
     }
 }
