@@ -49,7 +49,7 @@ public class OrderEntityImpl extends OrderEntity {
             return;
 
         var finalPrice = products.stream()
-                .map(ProductEntity::getPrice)
+                .map(p -> p.getPrice().multiply(new BigDecimal(p.getQuantity())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         this.setFinalPrice(finalPrice);
