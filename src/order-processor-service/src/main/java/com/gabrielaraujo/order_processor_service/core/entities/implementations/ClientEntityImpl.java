@@ -6,30 +6,19 @@ import java.util.Optional;
 
 public class ClientEntityImpl extends ClientEntity {
     public ClientEntityImpl(String name, String description) {
-        if (!description.isEmpty()) {
+        if (description != null) {
             this.setDescription(description);
         }
         this.setName(name.trim());
-
-        validateEntity();
     }
 
     public ClientEntityImpl(int id, String name, String description) {
-        if (!description.isEmpty()) {
+        if (description != null) {
             this.setDescription(description);
         }
-        if (!name.isEmpty()) {
+        if (name != null) {
             this.setName(name.trim());
         }
         this.setId(id);
-
-        validateEntity();
-    }
-
-    @Override
-    protected void validateEntity() {
-        if (this.getName().isEmpty()) {
-            throw new RuntimeException("Name cant be empty");
-        }
     }
 }

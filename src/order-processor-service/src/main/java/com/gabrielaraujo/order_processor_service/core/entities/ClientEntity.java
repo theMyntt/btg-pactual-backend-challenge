@@ -14,6 +14,4 @@ public abstract class ClientEntity {
     private int id;
     private String name;
     private String description;
-
-    protected abstract void validateEntity();
 }
