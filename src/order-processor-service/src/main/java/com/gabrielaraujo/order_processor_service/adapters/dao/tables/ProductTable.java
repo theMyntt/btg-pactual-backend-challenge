@@ -12,6 +12,7 @@ import java.math.BigInteger;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class ProductTable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
