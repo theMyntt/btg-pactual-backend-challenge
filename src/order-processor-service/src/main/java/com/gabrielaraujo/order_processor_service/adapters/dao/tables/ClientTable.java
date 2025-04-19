@@ -1,18 +1,21 @@
 package com.gabrielaraujo.order_processor_service.adapters.dao.tables;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "tb_clients")
 @Builder
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ClientTable {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id_client")
-    private int id;
+    private Integer id;
 
     @Column(name = "tx_name")
     private String name;
