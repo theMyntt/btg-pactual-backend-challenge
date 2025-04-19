@@ -1,8 +1,12 @@
 package com.gabrielaraujo.order_processor_service.core.use_cases.create_new_order.implementations.ports;
 
+import com.gabrielaraujo.order_processor_service.core.entities.ClientEntity;
 import com.gabrielaraujo.order_processor_service.core.entities.OrderEntity;
+import com.gabrielaraujo.order_processor_service.core.entities.ProductEntity;
 import lombok.Builder;
 import lombok.Getter;
+
+import java.util.List;
 
 public interface SaveNewOrderPort {
     SaveNewOrderPortOutput execute(SaveNewOrderPortInput input);
@@ -10,7 +14,8 @@ public interface SaveNewOrderPort {
     @Getter
     @Builder
     class SaveNewOrderPortInput {
-        private OrderEntity orderToSave;
+        private ClientEntity client;
+        private List<ProductEntity> products;
     }
 
     @Getter
