@@ -30,7 +30,7 @@ public class CreateNewOrderUseCaseImpl extends CreateNewOrderUseCase {
     @Override
     protected void applyInternalLogic(CreateNewOrderUseCaseInput input) {
         var client = extractClientFrom(input);
-        var order = saveOrderOnDatabase(client, input.getItems());
+        var order = saveOrderOnDatabase(input.getOrderCode(), client, input.getItems());
 
         log.info("Execution finished for: {}", order.toString());
     }
@@ -39,10 +39,13 @@ public class CreateNewOrderUseCaseImpl extends CreateNewOrderUseCase {
         return ClientEntityFactory.of(input.getClientCode(), null, null);
     }
 
-    private OrderEntity saveOrderOnDatabase(ClientEntity client, List<ProductEntity> products) {
+    private OrderEntity saveOrderOnDatabase(int orderCode, ClientEntity client, List<ProductEntity> products) {
+        var order = OrderEntityFactory.of(orderCode, client, products);
         var portInput = SaveNewOrderPort.SaveNewOrderPortInput.builder()
-                .client(client)
-                .products(products)
+                .orderCode(order.getId())
+                .client(order.getClient())
+                .products(order.getItems())
+                .finalPrice(order.getFinalPrice())
                 .build();
         var portOutput = saveNewOrderPort.execute(portInput);
         return portOutput.getSavedOrder();

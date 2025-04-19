@@ -6,6 +6,7 @@ import com.gabrielaraujo.order_processor_service.core.entities.ProductEntity;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface SaveNewOrderPort {
@@ -14,6 +15,8 @@ public interface SaveNewOrderPort {
     @Getter
     @Builder
     class SaveNewOrderPortInput {
+        private int orderCode;
+        private BigDecimal finalPrice;
         private ClientEntity client;
         private List<ProductEntity> products;
     }

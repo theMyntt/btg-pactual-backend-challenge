@@ -17,6 +17,7 @@ import com.gabrielaraujo.order_processor_service.core.use_cases.create_new_order
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -38,7 +39,7 @@ public class SaveNewOrderPortAdapter implements SaveNewOrderPort {
     public SaveNewOrderPortOutput execute(SaveNewOrderPortInput input) {
         var user = createOrFindClientFrom(input);
         var products = createOrFindProductsFrom(input);
-        var order = createOrderFrom(user, products);
+        var order = createOrderFrom(input.getOrderCode(), input.getFinalPrice(),user, products);
 
         orderRepository.save(order);
         log.info("Saved order: {}", order);
@@ -48,8 +49,10 @@ public class SaveNewOrderPortAdapter implements SaveNewOrderPort {
                 .build();
     }
 
-    private OrderTable createOrderFrom(ClientTable client, List<ProductTable> products) {
+    private OrderTable createOrderFrom(int id, BigDecimal finalPrice, ClientTable client, List<ProductTable> products) {
         return OrderTable.builder()
+                .id(id)
+                .finalPrice(finalPrice)
                 .products(products)
                 .client(client)
                 .build();
