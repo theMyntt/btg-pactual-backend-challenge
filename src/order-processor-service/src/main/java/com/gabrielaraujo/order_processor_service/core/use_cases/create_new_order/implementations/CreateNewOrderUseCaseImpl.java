@@ -1,6 +1,8 @@
 package com.gabrielaraujo.order_processor_service.core.use_cases.create_new_order.implementations;
 
+import com.gabrielaraujo.order_processor_service.core.entities.ClientEntity;
 import com.gabrielaraujo.order_processor_service.core.entities.OrderEntity;
+import com.gabrielaraujo.order_processor_service.core.entities.ProductEntity;
 import com.gabrielaraujo.order_processor_service.core.entities.factories.ClientEntityFactory;
 import com.gabrielaraujo.order_processor_service.core.entities.factories.OrderEntityFactory;
 import com.gabrielaraujo.order_processor_service.core.use_cases.create_new_order.CreateNewOrderUseCase;
@@ -8,6 +10,8 @@ import com.gabrielaraujo.order_processor_service.core.use_cases.create_new_order
 import com.gabrielaraujo.order_processor_service.core.use_cases.create_new_order.io.CreateNewOrderUseCaseInput;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -25,20 +29,20 @@ public class CreateNewOrderUseCaseImpl extends CreateNewOrderUseCase {
 
     @Override
     protected void applyInternalLogic(CreateNewOrderUseCaseInput input) {
-        var order = extractOrderFrom(input);
-        order = saveOrderOnDatabase(order);
+        var client = extractClientFrom(input);
+        var order = saveOrderOnDatabase(client, input.getItems());
 
-        log.info("Saved order: {}", order.toString());
+        log.info("Execution finished for: {}", order.toString());
     }
 
-    private OrderEntity extractOrderFrom(CreateNewOrderUseCaseInput input) {
-        var clientEntity = ClientEntityFactory.of(input.getClientCode(), null, null);
-        return OrderEntityFactory.of(input.getOrderCode(), clientEntity, input.getItems());
+    private ClientEntity extractClientFrom(CreateNewOrderUseCaseInput input) {
+        return ClientEntityFactory.of(input.getClientCode(), null, null);
     }
 
-    private OrderEntity saveOrderOnDatabase(OrderEntity order) {
+    private OrderEntity saveOrderOnDatabase(ClientEntity client, List<ProductEntity> products) {
         var portInput = SaveNewOrderPort.SaveNewOrderPortInput.builder()
-                .orderToSave(order)
+                .client(client)
+                .products(products)
                 .build();
         var portOutput = saveNewOrderPort.execute(portInput);
         return portOutput.getSavedOrder();
