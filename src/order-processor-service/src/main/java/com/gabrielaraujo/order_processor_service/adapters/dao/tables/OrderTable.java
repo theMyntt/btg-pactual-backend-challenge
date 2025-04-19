@@ -1,8 +1,10 @@
 package com.gabrielaraujo.order_processor_service.adapters.dao.tables;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -11,9 +13,10 @@ import java.util.List;
 @Table(name = "tb_orders")
 @Builder
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrderTable {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id_order")
     private int id;
 

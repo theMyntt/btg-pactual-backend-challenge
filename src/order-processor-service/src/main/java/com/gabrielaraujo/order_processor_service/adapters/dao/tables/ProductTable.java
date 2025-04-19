@@ -1,16 +1,17 @@
 package com.gabrielaraujo.order_processor_service.adapters.dao.tables;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
 @Entity
 @Table(name = "tb_products")
-@Data
+@Getter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProductTable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
