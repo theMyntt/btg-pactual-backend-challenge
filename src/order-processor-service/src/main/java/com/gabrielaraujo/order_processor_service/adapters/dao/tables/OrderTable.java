@@ -28,6 +28,6 @@ public class OrderTable {
     private ClientTable client;
 
     @OneToMany
-    @JoinColumn(name = "fk_id_product")
+    @JoinColumn(name = "fk_id_order")
     private List<ProductTable> products;
 }
