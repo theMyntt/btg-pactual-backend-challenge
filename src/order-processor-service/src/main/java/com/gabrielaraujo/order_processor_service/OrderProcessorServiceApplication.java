@@ -14,11 +14,11 @@ public class OrderProcessorServiceApplication {
 		var postgresUser = dotnev.get("POSTGRES_USER");
 		var postgresPassword = dotnev.get("POSTGRES_PASSWORD");
 
-		var jpaDdlAuto = dotnev.get("JPA_DDL_AUTO", "validate");
-		var jpaShowSql = dotnev.get("JPA_SHOW_SQL", "true");
+		var jpaDdlAuto = dotnev.get("JPA_DDL_AUTO");
+		var jpaShowSql = dotnev.get("JPA_SHOW_SQL");
 
 		var rabbitmqUrl = dotnev.get("RABBITMQ_URL");
-		var rabbitmqPort = dotnev.get("RABBITMQ_PORT", "5672");
+		var rabbitmqPort = dotnev.get("RABBITMQ_PORT");
 		var rabbitmqUser = dotnev.get("RABBITMQ_USER");
 		var rabbitmqPassword = dotnev.get("RABBITMQ_PASSWORD");
 
