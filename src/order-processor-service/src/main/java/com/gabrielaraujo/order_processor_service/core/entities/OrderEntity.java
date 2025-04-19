@@ -18,4 +18,5 @@ public abstract class OrderEntity {
     private List<ProductEntity> items;
 
     protected abstract void validateEntity();
+    protected abstract void calculateFinalPrice();
 }

@@ -19,7 +19,9 @@ public class OrderTableMapper {
     }
 
     public static OrderEntity toEntityFormat(OrderTable order) {
-        return OrderEntityFactory.of(order.getId(),
+        return OrderEntityFactory.of(
+                order.getId(),
+                order.getFinalPrice(),
                 ClientTableMapper.toEntityFormat(order.getClient()),
                 order.getProducts().stream()
                         .map(ProductTableMapper::toEntityFormat)
