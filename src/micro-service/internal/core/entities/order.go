@@ -9,7 +9,7 @@ type Order struct {
 }
 
 type OrderItems struct {
-	Product  string          `json:"produto"`
+	Name     string          `json:"produto"`
 	Quantity int             `json:"quantidade"`
 	Price    decimal.Decimal `json:"preco"`
 }
