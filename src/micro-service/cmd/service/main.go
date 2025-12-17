@@ -1,13 +1,11 @@
 package main
 
 import (
-	"log"
-
-	"github.com/theMyntt/btg-pactual-backend-challenge/internal/adapters/queue"
+	internalQueue "github.com/theMyntt/btg-pactual-backend-challenge/internal/adapters/queue"
 )
 
 func main() {
-	queue, channel := queue.NewConnection()
+	queue, channel := internalQueue.NewConnection()
 	messages, err := channel.Consume(queue.Name, "", true, false, false, false, nil)
 	if err != nil {
 		panic(err)
@@ -15,7 +13,7 @@ func main() {
 
 	go func() {
 		for d := range messages {
-			log.Printf("Mensagem recebida: %s", d.Body)
+			internalQueue.OrderProcessorQueueHandler(d.Body)
 		}
 	}()
 }
