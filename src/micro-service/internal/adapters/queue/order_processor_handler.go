@@ -1,11 +1,11 @@
 package queue
 
 import (
-	"database/sql"
 	"encoding/json"
 	"log"
 
 	"github.com/theMyntt/btg-pactual-backend-challenge/internal/core/entities"
+	"github.com/theMyntt/btg-pactual-backend-challenge/internal/core/usecases"
 )
 
 type OrderProcessorHandler interface {
@@ -13,12 +13,12 @@ type OrderProcessorHandler interface {
 }
 
 type orderProcessorHandlerDependencies struct {
-	db *sql.DB
+	usecase usecases.OrderProcessor
 }
 
-func NewOrderProcessorQueueHandler(db *sql.DB) OrderProcessorHandler {
+func NewOrderProcessorQueueHandler(usecase usecases.OrderProcessor) OrderProcessorHandler {
 	return &orderProcessorHandlerDependencies{
-		db: db,
+		usecase: usecase,
 	}
 }
 
@@ -30,4 +30,5 @@ func (o *orderProcessorHandlerDependencies) Run(body []byte) {
 		return
 	}
 
+	o.usecase.Execute(order)
 }

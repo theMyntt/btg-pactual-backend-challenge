@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/theMyntt/btg-pactual-backend-challenge/internal/adapters/database"
 	internalQueue "github.com/theMyntt/btg-pactual-backend-challenge/internal/adapters/queue"
+	"github.com/theMyntt/btg-pactual-backend-challenge/internal/core/usecases"
 )
 
 func main() {
@@ -14,7 +15,9 @@ func main() {
 		panic(err)
 	}
 
-	orderProcessorQueue := internalQueue.NewOrderProcessorQueueHandler(db)
+	orderRepository := database.NewOrderRepository(db)
+	orderProcessorUsecase := usecases.NewOrderProcessor(orderRepository)
+	orderProcessorQueue := internalQueue.NewOrderProcessorQueueHandler(orderProcessorUsecase)
 
 	go func() {
 		for d := range messages {
