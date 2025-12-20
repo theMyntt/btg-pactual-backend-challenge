@@ -4,6 +4,8 @@ import (
 	"github.com/theMyntt/btg-pactual-backend-challenge/internal/adapters/database"
 	internalQueue "github.com/theMyntt/btg-pactual-backend-challenge/internal/adapters/queue"
 	"github.com/theMyntt/btg-pactual-backend-challenge/internal/core/usecases"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 func main() {
