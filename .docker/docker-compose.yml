@@ -1,0 +1,38 @@
+services:
+  micro-service:
+    container_name: btg-orders-service
+    restart: unless-stopped
+    build:
+      context: ../src/micro-service/
+      dockerfile: Dockerfile
+    depends_on:
+      - mysql
+      - rabbitmq
+    environment:
+      - MYSQL_USER=${MYSQL_USER:-root}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-12345678}
+      - MYSQL_URL=${MYSQL_URL:-"mysql:3306"}
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-orders_service_db}
+      - RABBITMQ_USER=${RABBITMQ_USER:-guest}
+      - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD:-guest}
+      - RABBITMQ_URL=${RABBITMQ_URL:-rabbitmq}
+  
+  mysql:
+    container_name: btg-mysql
+    image: mysql:8.4.7
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD:-12345678}
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-orders_service_db}
+    ports:
+      - "3306:3306"
+  
+  rabbitmq:
+    container_name: btg-rabbitmq
+    image: rabbitmq:4-management
+    restart: unless-stopped
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+    
