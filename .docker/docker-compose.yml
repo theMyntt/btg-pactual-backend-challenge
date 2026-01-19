@@ -1,4 +1,20 @@
 services:
+  rest-api:
+    container_name: btg-rest-api
+    restart: unless-stopped
+    build:
+      context: ../src/rest-api/
+      dockerfile: Dockerfile
+    depends_on:
+      - mysql
+    ports:
+      - "8080:8080"
+    environment:
+      - MYSQL_USER=${MYSQL_USER:-root}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-12345678}
+      - MYSQL_URL=${MYSQL_URL:-"mysql:3306"}
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-orders_service_db}
+
   micro-service:
     container_name: btg-orders-service
     restart: unless-stopped
@@ -34,5 +50,3 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
-
-    
