@@ -26,9 +26,12 @@ func (o *orderProcessorHandlerDependencies) Run(body []byte) {
 	var order entities.Order
 	err := json.Unmarshal(body, &order)
 	if err != nil {
-		log.Print("Cant unmarshal JSON body")
+		log.Printf("Failed to unmarshal JSON body: %s", err)
 		return
 	}
 
-	o.usecase.Execute(order)
+	err = o.usecase.Execute(order)
+	if err != nil {
+		log.Printf("Failed to process order %d: %s", order.ID, err)
+	}
 }

@@ -1,6 +1,8 @@
 package main
 
 import (
+	"log"
+
 	"github.com/theMyntt/btg-pactual-backend-challenge/internal/adapters/database"
 	internalQueue "github.com/theMyntt/btg-pactual-backend-challenge/internal/adapters/queue"
 	"github.com/theMyntt/btg-pactual-backend-challenge/internal/core/usecases"
@@ -21,9 +23,14 @@ func main() {
 	orderProcessorUsecase := usecases.NewOrderProcessor(orderRepository)
 	orderProcessorQueue := internalQueue.NewOrderProcessorQueueHandler(orderProcessorUsecase)
 
+	forever := make(chan bool)
+
 	go func() {
 		for d := range messages {
 			orderProcessorQueue.Run(d.Body)
 		}
 	}()
+
+	log.Printf(" [*] Waiting for messages. To exit press CTRL+C")
+	<-forever
 }

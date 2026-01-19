@@ -1,14 +1,12 @@
 package usecases
 
 import (
-	"log"
-
 	"github.com/theMyntt/btg-pactual-backend-challenge/internal/core/entities"
 	"github.com/theMyntt/btg-pactual-backend-challenge/internal/core/ports"
 )
 
 type OrderProcessor interface {
-	Execute(order entities.Order)
+	Execute(order entities.Order) error
 }
 
 type orderProcessorDependencies struct {
@@ -21,7 +19,6 @@ func NewOrderProcessor(orderRepository ports.OrderRepositoryPort) OrderProcessor
 	}
 }
 
-func (o *orderProcessorDependencies) Execute(order entities.Order) {
-	err := o.orderRepository.Save(order)
-	log.Printf("Failed to save order %d: %s", order.ID, err)
+func (o *orderProcessorDependencies) Execute(order entities.Order) error {
+	return o.orderRepository.Save(order)
 }
